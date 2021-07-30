@@ -1,0 +1,72 @@
+<html>
+	<body>
+		<div id="dice-area" class="dice">they see me rollin</div>
+		<hr>
+		<div id="input-area">
+			<label>Ability dice: </label><input type="number" id="ability_dice"><br>
+			<label>Stress dice: </label><input type="number" id="stress_dice"><br>
+
+			<button onclick="roll()">Roll tha dice!!</button>
+		</div>
+	</body>
+</html>
+
+
+<style>
+	body {
+		text-align: center;
+	}
+
+	.dice {
+		font-size: 72pt;
+		color: lightgray;
+	}
+
+	.success {
+		color: limegreen;
+	}
+
+	.danger {
+		color: red;
+	}
+</style>
+
+<script>
+	function roll() {
+		ability = document.getElementById("ability_dice").value;
+		let ability_results = new Array();
+		while (ability > 0) {
+			ability_results.push(Math.floor(Math.random() * 6))
+			ability--;
+		}
+
+		stress = document.getElementById("stress_dice").value;
+		let stress_results = new Array();
+		while (stress > 0) {
+			stress_results.push(Math.floor(Math.random() * 6))
+			stress--;
+		}
+
+		let dice_area = document.getElementById("dice-area");
+		dice_area.innerHTML = "";
+		for (die of ability_results) {
+			dice_area.innerHTML += makeItUnicode(die, false);
+		}
+		dice_area.innerHTML += "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
+		for (die of stress_results) {
+			dice_area.innerHTML += makeItUnicode(die, true);
+		}
+	}
+
+	function makeItUnicode(integer, isStress) {
+		let die_value = parseInt(integer);
+		let number = 9856 + parseInt(die_value);
+		let die_class = "";
+		if (die_value == 5) {
+			die_class = "success";
+		} else if (die_value == 0 && isStress) {
+			die_class = "danger";
+		}
+		return "<span class='" + die_class + "'>&#" + number + "</span>";
+	}
+</script>
